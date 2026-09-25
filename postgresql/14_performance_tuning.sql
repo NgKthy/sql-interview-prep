@@ -93,10 +93,10 @@ SELECT * FROM employee WHERE LOWER(first_name) = 'an';
 -- ------------------------------------------------------------
 -- P9. TRÁNH: dùng hàm trên cột trong WHERE
 -- ------------------------------------------------------------
--- ❌ Chậm trong PG (mất index scan trừ khi có Expression Index)
+-- Chậm trong PG (mất index scan trừ khi có Expression Index)
 SELECT * FROM employee WHERE EXTRACT(YEAR FROM joining_date) = 2017;
 
--- ✅ Nhanh (dùng B-Tree Index chuẩn)
+-- Nhanh (dùng B-Tree Index chuẩn)
 SELECT * FROM employee
 WHERE joining_date >= '2017-01-01'
   AND joining_date <  '2018-01-01';
@@ -104,11 +104,11 @@ WHERE joining_date >= '2017-01-01'
 -- ------------------------------------------------------------
 -- P10. TRÁNH: NOT IN với NULL
 -- ------------------------------------------------------------
--- ❌ Trong PG, NOT IN (subquery) trả về 0 dòng nếu subquery chứa NULL
+-- Trong PG, NOT IN (subquery) trả về 0 dòng nếu subquery chứa NULL
 SELECT * FROM employee
 WHERE employee_id NOT IN (SELECT employee_ref_id FROM bonus);
 
--- ✅ Dùng EXCEPT hoặc NOT EXISTS / LEFT JOIN
+-- Dùng EXCEPT hoặc NOT EXISTS / LEFT JOIN
 SELECT * FROM employee
 EXCEPT
 SELECT e.* FROM employee e JOIN bonus b ON e.employee_id = b.employee_ref_id;

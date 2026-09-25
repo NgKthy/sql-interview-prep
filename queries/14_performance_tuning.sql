@@ -103,10 +103,10 @@ SELECT * FROM Employee ORDER BY salary DESC LIMIT 10;
 -- ------------------------------------------------------------
 -- P9. TRÁNH: hàm trên cột trong WHERE → mất index
 -- ------------------------------------------------------------
--- ❌ Chậm (không dùng được index trên joining_date)
+-- Chậm (không dùng được index trên joining_date)
 SELECT * FROM Employee WHERE YEAR(joining_date) = 2017;
 
--- ✅ Nhanh (dùng được index)
+-- Nhanh (dùng được index)
 SELECT * FROM Employee
 WHERE joining_date >= '2017-01-01'
   AND joining_date <  '2018-01-01';
@@ -114,10 +114,10 @@ WHERE joining_date >= '2017-01-01'
 -- ------------------------------------------------------------
 -- P10. TRÁNH: SELECT * khi chỉ cần vài cột
 -- ------------------------------------------------------------
--- ❌ Chậm (đọc toàn bộ cột)
+-- Chậm (đọc toàn bộ cột)
 SELECT * FROM Employee WHERE department = 'Admin';
 
--- ✅ Nhanh hơn (chỉ đọc cột cần)
+-- Nhanh hơn (chỉ đọc cột cần)
 SELECT employee_id, first_name, last_name
 FROM Employee
 WHERE department = 'Admin';
@@ -125,11 +125,11 @@ WHERE department = 'Admin';
 -- ------------------------------------------------------------
 -- P11. TRÁNH: NOT IN với subquery lớn
 -- ------------------------------------------------------------
--- ❌ Chậm
+-- Chậm
 SELECT * FROM Employee
 WHERE employee_id NOT IN (SELECT employee_ref_id FROM Bonus);
 
--- ✅ Nhanh hơn với LEFT JOIN ... IS NULL
+-- Nhanh hơn với LEFT JOIN ... IS NULL
 SELECT e.*
 FROM Employee e
 LEFT JOIN Bonus b ON e.employee_id = b.employee_ref_id
@@ -138,11 +138,11 @@ WHERE b.employee_ref_id IS NULL;
 -- ------------------------------------------------------------
 -- P12. TRÁNH: OR trên nhiều cột không index
 -- ------------------------------------------------------------
--- ❌ Chậm
+-- Chậm
 SELECT * FROM Employee
 WHERE department = 'Admin' OR salary > 400000;
 
--- ✅ Nhanh hơn với UNION (nếu cả 2 đều có index)
+-- Nhanh hơn với UNION (nếu cả 2 đều có index)
 SELECT * FROM Employee WHERE department = 'Admin'
 UNION
 SELECT * FROM Employee WHERE salary > 400000;
@@ -150,10 +150,10 @@ SELECT * FROM Employee WHERE salary > 400000;
 -- ------------------------------------------------------------
 -- P13. LIMIT + OFFSET lớn — phân trang kém hiệu quả
 -- ------------------------------------------------------------
--- ❌ Chậm khi OFFSET lớn (vẫn phải scan OFFSET dòng)
+-- Chậm khi OFFSET lớn (vẫn phải scan OFFSET dòng)
 SELECT * FROM Employee ORDER BY employee_id LIMIT 10 OFFSET 1000000;
 
--- ✅ Keyset pagination — dùng giá trị cuối cùng
+-- Keyset pagination — dùng giá trị cuối cùng
 SELECT * FROM Employee
 WHERE employee_id > 1000000
 ORDER BY employee_id

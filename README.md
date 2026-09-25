@@ -5,9 +5,7 @@
 ![PostgreSQL Version](https://img.shields.io/badge/PostgreSQL-14%2B-slategray?logo=postgresql)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-Bộ tài liệu tổng hợp và luyện tập **SQL Interview** đầy đủ dành cho các vị trí **Data Analyst (DA), Data Scientist (DS), Data Engineer (DE)** và **Business Analyst (BA)**. 
-
-Tài liệu được thiết kế bám sát thực tế các bài test và vòng phỏng vấn kỹ thuật từ các công ty công nghệ tên tuổi (**Meta, Visa, Wayfair, FAANG**) cũng như các nền tảng phỏng vấn hàng đầu như **LeetCode Top 50 SQL** và **DataLemur**.
+Bộ tài liệu tổng hợp và luyện tập **SQL Interview**.
 
 ---
 
@@ -168,19 +166,3 @@ Chuột phải vào file `index.html` -> Chọn **Open with Live Server**.
    ```
 
 ---
-
-## ⚙️ CI/CD Verification Workflow
-
-Mọi quy trình thay đổi code trong repo này đều được giám sát tự động bởi GitHub Actions (`.github/workflows/test.yml`). 
-
-Mỗi khi push hoặc mở Pull Request, hệ thống CI sẽ khởi chạy một Container MySQL 8.0 thật, tự động nạp toàn bộ Schema và nạp lần lượt 19 file `.sql` trong thư mục `queries/` để đảm bảo không có bất kỳ lỗi cú pháp nào.
-
----
-
-## 🤝 Đóng Góp & Phản Hồi (Contributing)
-
-Mọi ý kiến đóng góp, bổ sung thêm các dạng bài phỏng vấn mới hoặc tối ưu hóa cách viết SQL đều được hoan nghênh!
-- Đóng góp bài toán mới: Vui lòng mở **Pull Request** kèm theo lời giải và test case.
-- Báo lỗi cú pháp/hành vi: Vui lòng mở **Issue** trên GitHub Repository.
-
-*Chúc bạn ôn tập hiệu quả và đạt kết quả cao nhất trong các vòng phỏng vấn SQL!* 🚀
