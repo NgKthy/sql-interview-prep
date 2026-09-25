@@ -627,4 +627,19 @@ CREATE TABLE IF NOT EXISTS Examinations (
 );
 INSERT IGNORE INTO Examinations VALUES (1, 'Math'), (1, 'Physics');
 
+CREATE TABLE IF NOT EXISTS users (
+    user_id     INT PRIMARY KEY,
+    username    VARCHAR(50),
+    signup_date DATE,
+    city        VARCHAR(50)
+);
+INSERT IGNORE INTO users VALUES
+    (1, 'alice',   '2023-01-05', 'San Francisco'),
+    (2, 'bob',     '2023-01-20', 'New York'),
+    (3, 'charlie', '2023-02-01', 'London'),
+    (4, 'diana',   '2023-02-15', 'San Francisco'),
+    (5, 'eve',     '2023-03-01', 'New York'),
+    (6, 'frank',   '2023-03-10', 'London');
+
+
 

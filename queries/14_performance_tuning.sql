@@ -47,6 +47,7 @@ WHERE e.department = 'Admin';
 -- ------------------------------------------------------------
 -- P4. Tạo index đơn
 -- ------------------------------------------------------------
+DROP INDEX IF EXISTS idx_employee_department ON Employee;
 CREATE INDEX idx_employee_department ON Employee(department);
 
 -- Sau khi tạo, chạy lại EXPLAIN P1 → type sẽ là "ref", rows giảm mạnh.
@@ -55,6 +56,7 @@ CREATE INDEX idx_employee_department ON Employee(department);
 -- P5. Composite index (index nhiều cột)
 -- ------------------------------------------------------------
 -- Thứ tự cột quan trọng: prefix phải khớp WHERE
+DROP INDEX IF EXISTS idx_employee_dept_salary ON Employee;
 CREATE INDEX idx_employee_dept_salary ON Employee(department, salary);
 
 -- Index này dùng được cho:
@@ -66,6 +68,7 @@ CREATE INDEX idx_employee_dept_salary ON Employee(department, salary);
 -- ------------------------------------------------------------
 -- P6. Covering index — index chứa hết cột cần thiết
 -- ------------------------------------------------------------
+DROP INDEX IF EXISTS idx_employee_covering ON Employee;
 CREATE INDEX idx_employee_covering
     ON Employee(department, employee_id, first_name, last_name);
 
@@ -79,6 +82,7 @@ WHERE department = 'Admin';
 -- P7. Index cho JOIN
 -- ------------------------------------------------------------
 -- Foreign key thường nên có index để JOIN nhanh
+DROP INDEX IF EXISTS idx_bonus_emp_ref ON Bonus;
 CREATE INDEX idx_bonus_emp_ref ON Bonus(employee_ref_id);
 
 EXPLAIN
@@ -89,6 +93,7 @@ JOIN Bonus b ON e.employee_id = b.employee_ref_id;
 -- ------------------------------------------------------------
 -- P8. Index cho ORDER BY
 -- ------------------------------------------------------------
+DROP INDEX IF EXISTS idx_employee_salary_desc ON Employee;
 CREATE INDEX idx_employee_salary_desc ON Employee(salary DESC);
 
 EXPLAIN
