@@ -62,7 +62,7 @@ WITH RECURSIVE org AS (
 )
 SELECT
     emp_id,
-    LPAD(' ', (level - 1) * 2, ' ') || emp_name AS indented_name,
+    CONCAT(LPAD(' ', (level - 1) * 2, ' '), emp_name) AS indented_name,
     title,
     salary,
     level,
