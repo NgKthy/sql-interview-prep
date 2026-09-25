@@ -1,0 +1,77 @@
+-- ============================================================
+-- 09_cte_recursive.sql  (PostgreSQL port)
+-- Chủ đề: CTE và Recursive CTE
+-- Nguồn: C1-C4
+-- Khác biệt vs MySQL:
+--   - MySQL 8.0: SET SESSION cte_max_recursion_depth = N để mở rộng
+--   - PostgreSQL: SET max_recursive_iterations = N (không giới hạn mặc định)
+--   - Cú pháp WITH RECURSIVE hoàn toàn giống nhau (SQL:1999)
+-- ============================================================
+
+-- ============================================================
+-- C1. CTE cơ bản — nhân viên lương cao hơn TB phòng ban
+-- ------------------------------------------------------------
+-- PostgreSQL note: WITH ... AS (...) là SQL chuẩn — giống MySQL.
+-- Độ phức tạp: O(n log n).
+-- ============================================================
+WITH dept_avg AS (
+    SELECT department, AVG(salary) AS avg_salary
+    FROM Employee
+    GROUP BY department
+)
+SELECT
+    e.first_name, e.last_name, e.department, e.salary, d.avg_salary
+FROM Employee e
+JOIN dept_avg d ON e.department = d.department
+WHERE e.salary > d.avg_salary;
+
+-- ============================================================
+-- C2. Nhiều CTE — lọc nhân viên Admin lương cao hơn TB
+-- ------------------------------------------------------------
+-- PostgreSQL note:
+--   - Multi-CTE cú pháp giống MySQL.
+--   - PostgreSQL materialized CTEs theo mặc định (có thể thêm MATERIALIZED / NOT MATERIALIZED hint).
+-- Độ phức tạp: O(n).
+-- ============================================================
+WITH admin_avg AS (
+    SELECT AVG(salary) AS avg_salary
+    FROM Employee
+    WHERE department = 'Admin'
+),
+admin_emp AS (
+    SELECT * FROM Employee WHERE department = 'Admin'
+)
+SELECT *
+FROM admin_emp
+WHERE salary > (SELECT avg_salary FROM admin_avg);
+
+-- ============================================================
+-- C3. Recursive CTE — sinh dãy số 1..10
+-- ------------------------------------------------------------
+-- PostgreSQL note:
+--   - WITH RECURSIVE là SQL:1999 — giống MySQL.
+--   - PG không có giới hạn vòng lặp mặc định (khác MySQL mặc định 1000).
+--   - Để giới hạn: SET max_recursive_iterations = 1000;
+-- Độ phức tạp: O(n).
+-- ============================================================
+WITH RECURSIVE seq AS (
+    SELECT 1 AS n
+    UNION ALL
+    SELECT n + 1 FROM seq WHERE n < 10
+)
+SELECT * FROM seq;
+
+-- ============================================================
+-- C4. Recursive CTE — tính giai thừa
+-- ------------------------------------------------------------
+-- PostgreSQL note:
+--   - Giống MySQL. Giai thừa > 20! sẽ overflow BIGINT — dùng NUMERIC nếu cần.
+--   - PG: CAST thành NUMERIC: SELECT n, factorial::NUMERIC FROM fact
+-- Độ phức tạp: O(n).
+-- ============================================================
+WITH RECURSIVE fact AS (
+    SELECT 1 AS n, 1 AS factorial
+    UNION ALL
+    SELECT n + 1, (n + 1) * factorial FROM fact WHERE n < 10
+)
+SELECT * FROM fact;
