@@ -28,7 +28,7 @@ USE sql_interview_prep;
 SELECT
     employee_id, first_name, last_name, department, salary,
     RANK()       OVER (PARTITION BY department ORDER BY salary DESC) AS salary_rank,
-    DENSE_RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS dense_rank,
+    DENSE_RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS `dense_rank`,
     ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) AS row_num
 FROM Employee;
 
