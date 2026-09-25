@@ -1,0 +1,8 @@
+order_id,user_id,order_date,amount,status
+101,1,2023-03-01,100.00,completed
+102,1,2023-03-05,200.00,completed
+103,2,2023-03-02,50.00,completed
+104,3,2023-03-03,300.00,cancelled
+105,3,2023-03-06,150.00,completed
+106,4,2023-03-07,75.00,completed
+107,5,2023-03-08,120.00,completed

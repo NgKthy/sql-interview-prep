@@ -1,4 +1,4 @@
-NUMBER,ORDER_DATE,CUST_ID,SALESPERSON_ID,AMOUNT
+number,order_date,cust_id,salesperson_id,amount
 10,1996-02-08,4,2,540
 20,1999-01-30,4,8,1800
 30,1995-07-14,9,1,460

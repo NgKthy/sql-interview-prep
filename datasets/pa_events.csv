@@ -1,0 +1,11 @@
+user_id,event_name,event_time,app_id
+1,impression,2023-03-01 10:00:00,app_a
+1,click,2023-03-01 10:00:05,app_a
+2,impression,2023-03-01 11:00:00,app_a
+3,impression,2023-03-02 09:00:00,app_b
+3,click,2023-03-02 09:00:10,app_b
+3,click,2023-03-02 09:00:15,app_b
+4,impression,2023-03-03 14:00:00,app_b
+5,impression,2023-03-04 15:00:00,app_c
+5,click,2023-03-04 15:01:00,app_c
+6,impression,2023-03-05 16:00:00,app_c
