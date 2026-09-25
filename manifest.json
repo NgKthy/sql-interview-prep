@@ -1,6 +1,12 @@
 {
   "sections": [
     {
+      "id": "original",
+      "name": "00. Original Queries",
+      "desc": "51 câu hỏi gốc từ repo Aafreen29 (bản tham chiếu)",
+      "files": ["queries/00_original_queries.sql"]
+    },
+    {
       "id": "basic",
       "name": "01. Basic",
       "desc": "Aggregate, sắp xếp, phân nhóm, top N",
