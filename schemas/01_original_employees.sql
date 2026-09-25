@@ -525,6 +525,20 @@ CREATE TABLE IF NOT EXISTS candidates (
 );
 INSERT IGNORE INTO candidates VALUES (1, 'Python'), (1, 'Tableau'), (1, 'PostgreSQL');
 
+CREATE TABLE IF NOT EXISTS viewership (
+    device_type VARCHAR(50),
+    view_time   DATETIME
+);
+INSERT IGNORE INTO viewership VALUES ('laptop', '2022-01-01 10:00:00'), ('tablet', '2022-01-01 10:05:00'), ('phone', '2022-01-01 10:10:00');
+
+CREATE TABLE IF NOT EXISTS job_listings (
+    job_id      INT PRIMARY KEY AUTO_INCREMENT,
+    company_id  INT,
+    title       VARCHAR(100),
+    description TEXT
+);
+INSERT IGNORE INTO job_listings (company_id, title, description) VALUES (1, 'Software Engineer', 'Coding'), (1, 'Software Engineer', 'Coding');
+
 CREATE TABLE IF NOT EXISTS Products (
     product_id INT PRIMARY KEY,
     low_fats   CHAR(1),
