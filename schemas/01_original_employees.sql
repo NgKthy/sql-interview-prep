@@ -384,3 +384,80 @@ INSERT INTO event_log (user_id, event_date_time) VALUES
     (7494212, 1535308430), (7494212, 1535308433),
     (1475185, 1535308444), (6946725, 1535308475),
     (6946725, 1535308476), (6946725, 1535308477);
+
+-- ------------------------------------------------------------
+-- Bảng all_users, sport_accounts, follow_relation
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS all_users (
+    user_id           INT NOT NULL PRIMARY KEY,
+    user_name         CHAR(25),
+    registration_date DATETIME,
+    active_last_month BOOLEAN
+);
+
+INSERT INTO all_users (user_id, user_name, registration_date, active_last_month) VALUES
+    (1, 'sam', '2018-01-21', 1),   (2, 'phelp', '2018-01-15', 1),
+    (3, 'peyton', '2018-03-12', 1), (4, 'ryan', '2018-02-17', 0),
+    (5, 'james', '2018-01-21', 0),  (6, 'christine', '2018-02-27', 1),
+    (7, 'bolt', '2018-02-28', 0),   (8, 'jessica', '2018-01-11', 1),
+    (9, 'paul', '2018-04-23', 1),   (10, 'brian', '2018-03-12', 0);
+
+CREATE TABLE IF NOT EXISTS sport_accounts (
+    sport_player_id INT,
+    sport_player    CHAR(25),
+    sport_category  CHAR(25),
+    FOREIGN KEY (sport_player_id) REFERENCES all_users(user_id) ON DELETE CASCADE
+);
+
+INSERT INTO sport_accounts (sport_player_id, sport_player, sport_category) VALUES
+    (2, 'phelp', 'swimming'),   (7, 'bolt', 'running'),
+    (8, 'jessica', 'swimming'), (9, 'paul', 'basketball'),
+    (10, 'brian', 'cricket'),   (5, 'james', 'cricket');
+
+CREATE TABLE IF NOT EXISTS follow_relation (
+    follower_id    INT,
+    target_id      INT,
+    following_date DATETIME,
+    FOREIGN KEY (follower_id) REFERENCES all_users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (target_id) REFERENCES all_users(user_id) ON DELETE CASCADE
+);
+
+INSERT INTO follow_relation (follower_id, target_id, following_date) VALUES
+    (1, 8, '2018-01-02'), (5, 2, '2018-01-02'), (9, 10, '2018-01-02'),
+    (10, 8, '2018-01-02'), (8, 3, '2018-01-02'), (4, 6, '2018-01-02'),
+    (2, 8, '2018-01-02'), (6, 9, '2018-01-02'), (1, 7, '2018-01-02'),
+    (10, 2, '2018-01-02'), (1, 2, '2018-01-02');
+
+-- ------------------------------------------------------------
+-- Mock tables cho Q46, Q47, Q48 trong 00_original_queries.sql
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS user (
+    user_id   INT PRIMARY KEY,
+    name      VARCHAR(50),
+    phone_num VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS userhistory (
+    user_id INT,
+    date    DATETIME,
+    action  VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS compare (
+    numbers INT
+);
+
+INSERT INTO compare (numbers) VALUES (10), (50), (25), (100), (75);
+
+-- ------------------------------------------------------------
+-- Views cho case-insensitivity hỗ trợ trên Linux MySQL
+-- ------------------------------------------------------------
+CREATE OR REPLACE VIEW employee AS SELECT * FROM Employee;
+CREATE OR REPLACE VIEW bonus AS SELECT * FROM Bonus;
+CREATE OR REPLACE VIEW title AS SELECT * FROM Title;
+CREATE OR REPLACE VIEW dialoglog AS SELECT * FROM DIALOGLOG;
+CREATE OR REPLACE VIEW user_action AS SELECT * FROM USER_ACTION;
+CREATE OR REPLACE VIEW Salesperson AS SELECT * FROM salesperson;
+CREATE OR REPLACE VIEW Customer AS SELECT * FROM customer;
+CREATE OR REPLACE VIEW Orders AS SELECT * FROM orders;
+
