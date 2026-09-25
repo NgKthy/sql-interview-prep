@@ -3,7 +3,7 @@ USE sql_interview_prep;
 -- 1> Write a SQL query to find the nth highest salary from employee table. 
 -- Example: finding 3rd highest salary from employee table
 select * from employee order by salary desc;
---- Limit N-1,1
+-- Limit N-1,1
 select distinct salary from employee order by salary desc limit 2, 1;
 
 -- 2> Write a SQL query to find top n records?
@@ -72,14 +72,14 @@ select * from employee where employee_id = (select max(employee_id) from employe
 select * from employee where employee_id = (select min(employee_id) from employee);
 
 -- 18> Write a SQL query to get last five records from a employee table.
-(select * from employee order by employee_id desc limit 5) order by employee_id;
+select * from (select * from employee order by employee_id desc limit 5) t order by employee_id;
 
 -- 19> Write a SQL query to find employees having the highest salary in each department. 
-select first_name, last_name, department, max(salary) as 'Max Salary'from employee group by department order by max(salary);
+select department, max(salary) as 'Max Salary' from employee group by department order by max(salary);
 
 -- 20> Write a SQL query to fetch three max salaries from employee table.
 select distinct salary from employee order by salary desc limit 3 ;
--- OR-----
+-- OR
 select distinct Salary from employee e1 WHERE 3 >= (SELECT count(distinct Salary) from employee e2 WHERE e1.Salary <= e2.Salary) order by e1.Salary desc;
 
 -- 21> Write a SQL query to fetch departments along with the total salaries paid for each of them.
@@ -93,11 +93,10 @@ select first_name, last_name from employee where salary = (select max(salary) fr
 -- users and the pages they liked. It should not recommend pages you already like.
 
 -- 24> write a SQL query to find employee (first name, last name, department and bonus) with highest bonus.
-select first_name, last_name, department, max(bonus_amount) from employee e
+select e.first_name, e.last_name, e.department, b.bonus_amount from employee e
 join bonus b
 on e.employee_id = b.employee_ref_id
-group by department
-order by max(bonus_amount) desc limit 1;
+order by b.bonus_amount desc limit 1;
 
 -- 25> write a SQL query to find employees with same salary
 select e1.first_name, e1.last_name, e1.salary from employee e1, employee e2
@@ -329,7 +328,7 @@ from user,userhistory
 where user.user_id = userhistory.user_id
 and userhistory.action = 'logged_on'
 and userhistory.date >= date_sub(curdate(), interval 30 day)
-group by user.name;
+group by user.name, user.phone_num;
 
 -- 47> Given two tables:  User(user_id, name, phone_num) and UserHistory(user_id, date, action), 
 -- Write a SQL query to determine which user_ids in the User table are not contained in the UserHistory table 
