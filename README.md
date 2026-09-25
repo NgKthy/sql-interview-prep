@@ -1,9 +1,12 @@
 # 🗃️ SQL Interview Prep — Data Analyst / Data Engineer / Data Scientist
 
-[![Test SQL Queries](https://github.com/NgKthy/sql-interview-prep/actions/workflows/test.yml/badge.svg)](https://github.com/NgKthy/sql-interview-prep/actions/workflows/test.yml)
-![MySQL Version](https://img.shields.io/badge/MySQL-8.0%2B-blue?logo=mysql)
-![PostgreSQL Version](https://img.shields.io/badge/PostgreSQL-14%2B-slategray?logo=postgresql)
-![License](https://img.shields.io/badge/License-MIT-green)
+![Test SQL Queries](https://github.com/NgKthy/sql-interview-prep/actions/workflows/test-sql.yml/badge.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![MySQL](https://img.shields.io/badge/MySQL-8.0+-blue.svg)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-336791.svg)
+![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-success)
+
+🔗 **Live demo**: https://ngkthy.github.io/sql-interview-prep/
 
 Bộ tài liệu tổng hợp và luyện tập **SQL Interview**.
 

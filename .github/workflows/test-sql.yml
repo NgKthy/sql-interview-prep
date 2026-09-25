@@ -7,7 +7,8 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  test-mysql:
+    name: Test MySQL 8.0
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -18,7 +19,7 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping -h localhost"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -32,9 +33,44 @@ jobs:
           mysql -h 127.0.0.1 -u root -proot < schemas/02_product_analytics.sql
           mysql -h 127.0.0.1 -u root -proot < schemas/03_social_network.sql
 
-      - name: Run all queries
+      - name: Run all MySQL queries
         run: |
           for f in queries/*.sql; do
-            echo "Running $f..."
+            echo "::group::Running $f"
             mysql -h 127.0.0.1 -u root -proot sql_interview_prep < "$f" || exit 1
+            echo "::endgroup::"
+          done
+
+  test-postgres:
+    name: Test PostgreSQL 14
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: sql_interview_prep
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Load schemas (PostgreSQL)
+        env:
+          PGPASSWORD: root
+        run: |
+          for f in postgresql/*.sql; do
+            if [[ "$f" == *"README"* ]]; then continue; fi
+            echo "::group::Loading $f"
+            psql -h 127.0.0.1 -U postgres -d sql_interview_prep -f "$f" || exit 1
+            echo "::endgroup::"
           done
