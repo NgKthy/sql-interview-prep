@@ -1,0 +1,137 @@
+{
+  "sections": [
+    {
+      "id": "basic",
+      "name": "01. Basic",
+      "desc": "Aggregate, sắp xếp, phân nhóm, top N",
+      "files": ["queries/01_basic.sql"]
+    },
+    {
+      "id": "string_date",
+      "name": "02. String & Date",
+      "desc": "Xử lý chuỗi và ngày tháng",
+      "files": ["queries/02_string_date.sql"]
+    },
+    {
+      "id": "self_join",
+      "name": "03. Self Join",
+      "desc": "Join bảng với chính nó",
+      "files": ["queries/03_self_join.sql"]
+    },
+    {
+      "id": "subquery",
+      "name": "04. Subquery",
+      "desc": "IN / EXISTS / NOT IN",
+      "files": ["queries/04_subquery.sql"]
+    },
+    {
+      "id": "joins",
+      "name": "05. Joins",
+      "desc": "JOIN nhiều bảng",
+      "files": ["queries/05_joins.sql"]
+    },
+    {
+      "id": "product",
+      "name": "06. Product Metrics",
+      "desc": "CTR, retention, fraud, acceptance",
+      "files": ["queries/06_product_metrics.sql"]
+    },
+    {
+      "id": "histogram",
+      "name": "07. Histogram",
+      "desc": "Histogram / bucketing",
+      "files": ["queries/07_histogram.sql"]
+    },
+    {
+      "id": "window",
+      "name": "08. Window Functions",
+      "desc": "RANK, LAG/LEAD, moving average",
+      "files": ["queries/08_window_functions.sql"]
+    },
+    {
+      "id": "cte",
+      "name": "09. CTE & Recursive",
+      "desc": "Common Table Expression, recursive",
+      "files": ["queries/09_cte_recursive.sql"]
+    },
+    {
+      "id": "set_ops",
+      "name": "10. Set Operations",
+      "desc": "UNION / INTERSECT / EXCEPT",
+      "files": ["queries/10_set_operations.sql"]
+    },
+    {
+      "id": "leetcode",
+      "name": "11. LeetCode Top 50",
+      "desc": "Lời giải tham khảo",
+      "files": ["queries/11_leetcode_top50.sql"]
+    },
+    {
+      "id": "datalemur",
+      "name": "12. DataLemur",
+      "desc": "Câu hỏi từ DataLemur",
+      "files": ["queries/12_datalemur.sql"]
+    },
+    {
+      "id": "json",
+      "name": "13. JSON Functions",
+      "desc": "JSON_EXTRACT, JSON_TABLE",
+      "files": ["queries/13_json_functions.sql"]
+    },
+    {
+      "id": "perf",
+      "name": "14. Performance Tuning",
+      "desc": "EXPLAIN, INDEX, anti-patterns",
+      "files": ["queries/14_performance_tuning.sql"]
+    },
+    {
+      "id": "procedures",
+      "name": "15. Stored Procedures",
+      "desc": "Procedure, function, trigger, view",
+      "files": ["queries/15_stored_procedures.sql"]
+    },
+    {
+      "id": "org_chart",
+      "name": "16. Recursive Org Chart",
+      "desc": "Org chart, bill of materials",
+      "files": ["queries/16_recursive_org_chart.sql"]
+    },
+    {
+      "id": "analytics",
+      "name": "17. Advanced Analytics",
+      "desc": "Cohort, funnel, RFM",
+      "files": ["queries/17_advanced_analytics.sql"]
+    },
+    {
+      "id": "pandas",
+      "name": "18. Pandas vs SQL",
+      "desc": "So sánh SQL và pandas",
+      "files": ["queries/18_pandas_vs_sql.sql"]
+    },
+    {
+      "id": "postgres",
+      "name": "19. PostgreSQL Port",
+      "desc": "Bản port sang PostgreSQL",
+      "files": [
+        "postgresql/01_basic.sql",
+        "postgresql/02_string_date.sql",
+        "postgresql/03_self_join.sql",
+        "postgresql/04_subquery.sql",
+        "postgresql/05_joins.sql",
+        "postgresql/06_product_metrics.sql",
+        "postgresql/07_histogram.sql",
+        "postgresql/08_window_functions.sql",
+        "postgresql/09_cte_recursive.sql",
+        "postgresql/10_set_operations.sql",
+        "postgresql/11_leetcode_top50.sql",
+        "postgresql/12_datalemur.sql",
+        "postgresql/13_json_functions.sql",
+        "postgresql/14_performance_tuning.sql",
+        "postgresql/15_stored_procedures.sql",
+        "postgresql/16_recursive_org_chart.sql",
+        "postgresql/17_advanced_analytics.sql",
+        "postgresql/18_pandas_vs_sql.sql"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Interview Prep — Data Analyst</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #f6f7f9; color: #1f2328; line-height: 1.6;
+  }
+  header {
+    background: #24292f; color: #fff; padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+  header h1 { font-size: 17px; font-weight: 600; }
+  header .stats { font-size: 13px; color: #8b949e; }
+  header a { color: #58a6ff; text-decoration: none; font-size: 13px; }
+
+  .layout {
+    display: grid; grid-template-columns: 260px 1fr;
+    max-width: 1400px; margin: 0 auto;
+    min-height: calc(100vh - 56px);
+  }
+
+  aside {
+    background: #fff; border-right: 1px solid #e1e4e8;
+    padding: 16px 0; position: sticky; top: 56px;
+    height: calc(100vh - 56px); overflow-y: auto;
+  }
+  aside .search { padding: 0 16px 12px; }
+  aside input {
+    width: 100%; padding: 8px 12px;
+    border: 1px solid #d0d7de; border-radius: 6px; font-size: 13px;
+  }
+  aside ul { list-style: none; }
+  aside li a {
+    display: flex; justify-content: space-between;
+    padding: 8px 16px; color: #1f2328; text-decoration: none;
+    font-size: 14px; border-left: 3px solid transparent;
+  }
+  aside li a:hover { background: #f6f8fa; }
+  aside li a.active {
+    background: #ddf4ff; border-left-color: #0969da; font-weight: 600;
+  }
+  aside .count { color: #656d76; font-size: 12px; }
+
+  main { padding: 24px 32px; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .section h2 { font-size: 22px; margin-bottom: 4px; }
+  .section .desc {
+    color: #656d76; font-size: 14px; margin-bottom: 24px;
+  }
+
+  .query {
+    background: #fff; border: 1px solid #e1e4e8;
+    border-radius: 8px; margin-bottom: 16px; overflow: hidden;
+  }
+  .query-header {
+    padding: 10px 16px; display: flex; align-items: center;
+    justify-content: space-between; gap: 12px;
+    border-bottom: 1px solid #e1e4e8;
+  }
+  .query-title { font-size: 14px; font-weight: 600; }
+  .query-title .badge {
+    display: inline-block; background: #ddf4ff; color: #0969da;
+    font-size: 11px; padding: 2px 8px; border-radius: 12px;
+    margin-left: 8px; font-weight: 500; vertical-align: middle;
+  }
+  .btn-copy {
+    background: #f6f8fa; border: 1px solid #d0d7de; color: #24292f;
+    padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;
+  }
+  .btn-copy:hover { background: #eaeef2; }
+  .btn-copy.copied {
+    background: #dafbe1; border-color: #2da44e; color: #1a7f37;
+  }
+  .query pre {
+    margin: 0; padding: 16px; overflow-x: auto;
+    font-size: 13px; line-height: 1.5; background: #282c34;
+  }
+  .query pre code.hljs {
+    background: transparent; padding: 0;
+    font-family: "SF Mono", Consolas, Monaco, monospace;
+  }
+
+  .empty { text-align: center; padding: 60px 20px; color: #656d76; }
+  .loading { text-align: center; padding: 60px 20px; color: #656d76; }
+  .error {
+    background: #fff5f5; border: 1px solid #feb2b2;
+    color: #c53030; padding: 16px; border-radius: 8px;
+    margin-bottom: 16px; font-size: 14px;
+  }
+  .error code {
+    background: #fed7d7; padding: 2px 6px; border-radius: 4px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    aside { position: static; height: auto;
+            border-right: none; border-bottom: 1px solid #e1e4e8; }
+    main { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🗃️ SQL Interview Prep</h1>
+  <div class="stats">
+    <span id="totalQueries">…</span> queries ·
+    <a href="https://github.com/NgKthy/sql-interview-prep" target="_blank">GitHub ↗</a>
+  </div>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="search">
+      <input type="text" id="search" placeholder="Tìm query…">
+    </div>
+    <ul id="menu"></ul>
+  </aside>
+  <main id="content">
+    <div class="loading">Đang tải dữ liệu…</div>
+  </main>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const MANIFEST_URL = 'manifest.json';
+
+// Pattern nhận dạng header của mỗi query trong file .sql
+// Khớp:  "-- Q1. ..."  "-- W1. ..."  "-- OC1. ..."  "-- 1> ..."
+const QUERY_HEADER_RE = /^--\s+([A-Z]{1,4}\d+[\.\):>]\s+.+)$/;
+
+// ============================================================
+// MAIN
+// ============================================================
+(async function main() {
+  const contentEl = document.getElementById('content');
+  const menuEl    = document.getElementById('menu');
+  const totalEl   = document.getElementById('totalQueries');
+
+  // 1. Load manifest
+  let manifest;
+  try {
+    const res = await fetch(MANIFEST_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    manifest = await res.json();
+  } catch (err) {
+    showFetchError(err);
+    return;
+  }
+
+  // 2. Load song song tất cả file .sql trong manifest
+  const allFiles = [...new Set(manifest.sections.flatMap(s => s.files))];
+  const fileContents = {};
+
+  await Promise.all(allFiles.map(async (path) => {
+    try {
+      const res = await fetch(path);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      fileContents[path] = await res.text();
+    } catch (err) {
+      console.error(`Failed to load ${path}:`, err);
+      fileContents[path] = null;
+    }
+  }));
+
+  // 3. Build dữ liệu từng section
+  const sections = manifest.sections.map(sec => {
+    const queries = [];
+    sec.files.forEach(path => {
+      const raw = fileContents[path];
+      if (!raw) return;
+      const parsed = parseSqlFile(raw, path);
+      queries.push(...parsed);
+    });
+    return { ...sec, queries };
+  });
+
+  // 4. Render
+  renderMenu(menuEl, sections);
+  renderContent(contentEl, sections);
+
+  const total = sections.reduce((sum, s) => sum + s.queries.length, 0);
+  totalEl.textContent = total;
+
+  // 5. Kích hoạt section đầu tiên
+  if (sections.length > 0) activate(sections[0].id);
+
+  // 6. Gắn sự kiện
+  bindNav();
+  bindCopy();
+  bindSearch();
+
+  // 7. Highlight code
+  document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+})();
+
+// ============================================================
+// PARSER: tách file .sql thành nhiều query
+// ============================================================
+function parseSqlFile(content, filePath) {
+  const lines = content.split(/\r?\n/);
+  const queries = [];
+  let current = null;
+
+  for (const line of lines) {
+    const m = line.match(QUERY_HEADER_RE);
+    if (m) {
+      if (current) queries.push(current);
+      current = { title: m[1].trim(), lines: [line] };
+    } else if (current) {
+      current.lines.push(line);
+    }
+  }
+  if (current) queries.push(current);
+
+  // Nếu file không có marker nào → hiển thị cả file như 1 query
+  if (queries.length === 0) {
+    return [{
+      title: filePath.split('/').pop(),
+      sql: content.trim(),
+      file: filePath
+    }];
+  }
+
+  return queries.map(q => ({
+    title: q.title,
+    sql: q.lines.join('\n').trim(),
+    file: filePath
+  }));
+}
+
+// ============================================================
+// RENDER MENU
+// ============================================================
+function renderMenu(menuEl, sections) {
+  menuEl.innerHTML = sections.map(sec => `
+    <li>
+      <a href="#${sec.id}" data-id="${sec.id}">
+        <span>${escapeHtml(sec.name)}</span>
+        <span class="count">${sec.queries.length}</span>
+      </a>
+    </li>
+  `).join('');
+}
+
+// ============================================================
+// RENDER CONTENT
+// ============================================================
+function renderContent(contentEl, sections) {
+  contentEl.innerHTML = sections.map(sec => {
+    const queriesHtml = sec.queries.map((q, i) => {
+      const badge = extractBadge(q.title);
+      const cleanTitle = stripBadge(q.title);
+      const codeId = `code-${sec.id}-${i}`;
+      const searchKey = (q.title + ' ' + q.sql).toLowerCase();
+
+      return `
+        <article class="query" data-search="${escapeAttr(searchKey)}">
+          <div class="query-header">
+            <div class="query-title">
+              ${escapeHtml(cleanTitle)}
+              ${badge ? `<span class="badge">${escapeHtml(badge)}</span>` : ''}
+            </div>
+            <button class="btn-copy" data-target="${codeId}">Copy</button>
+          </div>
+          <pre><code class="language-sql" id="${codeId}">${escapeHtml(q.sql)}</code></pre>
+        </article>
+      `;
+    }).join('');
+
+    return `
+      <section class="section" id="${sec.id}">
+        <h2>${escapeHtml(sec.name)}</h2>
+        <p class="desc">${escapeHtml(sec.desc)}</p>
+        ${queriesHtml || '<div class="empty">Chưa có query nào.</div>'}
+      </section>
+    `;
+  }).join('');
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function bindNav() {
+  const links = document.querySelectorAll('aside a');
+  links.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      activate(a.dataset.id);
+      history.replaceState(null, '', '#' + a.dataset.id);
+    });
+  });
+
+  // Kích hoạt theo hash nếu có
+  if (location.hash) {
+    const id = location.hash.slice(1);
+    if (document.getElementById(id)) activate(id);
+  }
+}
+
+function activate(id) {
+  document.querySelectorAll('aside a').forEach(a => {
+    a.classList.toggle('active', a.dataset.id === id);
+  });
+  document.querySelectorAll('.section').forEach(s => {
+    s.classList.toggle('active', s.id === id);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// COPY
+// ============================================================
+function bindCopy() {
+  document.querySelectorAll('.btn-copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const code = document.getElementById(btn.dataset.target);
+      if (!code) return;
+      navigator.clipboard.writeText(code.innerText).then(() => {
+        const old = btn.textContent;
+        btn.textContent = 'Đã copy ✓';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = old;
+          btn.classList.remove('copied');
+        }, 1500);
+      });
+    });
+  });
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+function bindSearch() {
+  document.getElementById('search').addEventListener('input', e => {
+    const q = e.target.value.trim().toLowerCase();
+    document.querySelectorAll('.query').forEach(card => {
+      const match = !q || card.dataset.search.includes(q);
+      card.style.display = match ? '' : 'none';
+    });
+  });
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function escapeAttr(s) {
+  return String(s).replace(/"/g, '&quot;');
+}
+
+// Trích badge từ title: "Q1. Tìm..." → "Q1"
+function extractBadge(title) {
+  const m = title.match(/^([A-Z]{1,4}\d+)[\.\):>]/);
+  return m ? m[1] : '';
+}
+
+function stripBadge(title) {
+  return title;
+}
+
+function showFetchError(err) {
+  const contentEl = document.getElementById('content');
+  contentEl.innerHTML = `
+    <div class="error">
+      <strong>⚠️ Không tải được <code>manifest.json</code>.</strong>
+      <p style="margin-top:8px">Lỗi: ${escapeHtml(err.message)}</p>
+      <p style="margin-top:12px">Có 2 nguyên nhân thường gặp:</p>
+      <ol style="margin-left:20px; margin-top:8px">
+        <li>Bạn đang mở file bằng <code>file://</code> — trình duyệt chặn <code>fetch()</code>.
+            Hãy chạy local server:<br>
+            <code style="display:inline-block;margin-top:4px">
+              cd &lt;repo&gt;; powershell -File scripts\\serve.ps1
+            </code>
+        </li>
+        <li>Bạn đã deploy GitHub Pages nhưng chưa push <code>manifest.json</code>.</li>
+      </ol>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
