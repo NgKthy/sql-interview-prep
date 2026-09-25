@@ -1,0 +1,40 @@
+name: Test SQL Queries
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: sql_interview_prep
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load schemas
+        run: |
+          mysql -h 127.0.0.1 -u root -proot < schemas/01_original_employees.sql
+          mysql -h 127.0.0.1 -u root -proot < schemas/02_product_analytics.sql
+          mysql -h 127.0.0.1 -u root -proot < schemas/03_social_network.sql
+
+      - name: Run all queries
+        run: |
+          for f in queries/*.sql; do
+            echo "Running $f..."
+            mysql -h 127.0.0.1 -u root -proot < "$f" || exit 1
+          done
