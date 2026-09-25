@@ -461,3 +461,165 @@ CREATE OR REPLACE VIEW Salesperson AS SELECT * FROM salesperson;
 CREATE OR REPLACE VIEW Customer AS SELECT * FROM customer;
 CREATE OR REPLACE VIEW Orders AS SELECT * FROM orders;
 
+-- ------------------------------------------------------------
+-- Bảng hỗ trợ cho DataLemur, LeetCode & Joins
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS friendships (
+    user_id       INT,
+    friend_id     INT,
+    accepted_date DATE,
+    PRIMARY KEY (user_id, friend_id)
+);
+INSERT IGNORE INTO friendships (user_id, friend_id, accepted_date) VALUES
+    (1, 2, '2023-01-10'), (1, 3, '2023-01-15'), (2, 3, '2023-01-20');
+
+CREATE TABLE IF NOT EXISTS page_likes (
+    user_id    INT,
+    page_id    INT,
+    liked_date DATE,
+    PRIMARY KEY (user_id, page_id)
+);
+INSERT IGNORE INTO page_likes (user_id, page_id, liked_date) VALUES
+    (1, 100, '2023-01-05'), (2, 100, '2023-01-11'), (3, 101, '2023-01-16');
+
+CREATE TABLE IF NOT EXISTS pages (
+    page_id   INT PRIMARY KEY,
+    page_name VARCHAR(50)
+);
+INSERT IGNORE INTO pages VALUES (100, 'Blog A'), (101, 'Blog B'), (102, 'Blog C');
+
+CREATE TABLE IF NOT EXISTS trades (
+    trade_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id  INT,
+    status   VARCHAR(20),
+    city     VARCHAR(50)
+);
+INSERT IGNORE INTO trades (user_id, status) VALUES (1, 'Completed'), (2, 'Completed');
+
+CREATE TABLE IF NOT EXISTS messages (
+    message_id  INT PRIMARY KEY AUTO_INCREMENT,
+    sender_id   INT,
+    receiver_id INT,
+    content     TEXT,
+    sent_date   DATETIME
+);
+INSERT IGNORE INTO messages (sender_id, receiver_id, content, sent_date) VALUES (1, 2, 'Hello', '2022-08-10 10:00:00');
+
+CREATE TABLE IF NOT EXISTS tweets (
+    tweet_id   INT PRIMARY KEY AUTO_INCREMENT,
+    user_id    INT,
+    content    VARCHAR(140),
+    tweet_date DATETIME
+);
+INSERT IGNORE INTO tweets (user_id, content, tweet_date) VALUES (1, 'First tweet!', '2022-01-15 12:00:00');
+
+CREATE TABLE IF NOT EXISTS candidates (
+    candidate_id INT,
+    skill        VARCHAR(50),
+    PRIMARY KEY (candidate_id, skill)
+);
+INSERT IGNORE INTO candidates VALUES (1, 'Python'), (1, 'Tableau'), (1, 'PostgreSQL');
+
+CREATE TABLE IF NOT EXISTS Products (
+    product_id INT PRIMARY KEY,
+    low_fats   CHAR(1),
+    recyclable CHAR(1)
+);
+INSERT IGNORE INTO Products VALUES (1, 'Y', 'Y'), (2, 'Y', 'N');
+
+CREATE TABLE IF NOT EXISTS World (
+    name       VARCHAR(50) PRIMARY KEY,
+    continent  VARCHAR(50),
+    area       INT,
+    population INT,
+    gdp        BIGINT
+);
+INSERT IGNORE INTO World VALUES ('Andorra', 'Europe', 468, 77006, 3712000000);
+
+CREATE TABLE IF NOT EXISTS Views (
+    article_id INT,
+    author_id  INT,
+    viewer_id  INT,
+    view_date  DATE
+);
+INSERT IGNORE INTO Views VALUES (1, 3, 3, '2019-08-01');
+
+CREATE TABLE IF NOT EXISTS Tweets (
+    tweet_id INT PRIMARY KEY,
+    content  VARCHAR(100)
+);
+INSERT IGNORE INTO Tweets VALUES (1, 'Vote for user'), (2, 'Let us make America great again');
+
+CREATE TABLE IF NOT EXISTS Employees (
+    id   INT PRIMARY KEY,
+    name VARCHAR(50)
+);
+INSERT IGNORE INTO Employees VALUES (1, 'Alice'), (7, 'Bob'), (11, 'Meir');
+
+CREATE TABLE IF NOT EXISTS EmployeeUNI (
+    id        INT PRIMARY KEY,
+    unique_id INT
+);
+INSERT IGNORE INTO EmployeeUNI VALUES (3, 1), (11, 2), (90, 3);
+
+CREATE TABLE IF NOT EXISTS Sales (
+    sale_id    INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT,
+    year       INT,
+    quantity   INT,
+    price      INT
+);
+INSERT IGNORE INTO Sales (product_id, year, quantity, price) VALUES (100, 2008, 10, 5000);
+
+CREATE TABLE IF NOT EXISTS Product (
+    product_id   INT PRIMARY KEY,
+    product_name VARCHAR(50)
+);
+INSERT IGNORE INTO Product VALUES (100, 'Nokia'), (200, 'Apple');
+
+CREATE TABLE IF NOT EXISTS Visits (
+    visit_id    INT PRIMARY KEY,
+    customer_id INT
+);
+INSERT IGNORE INTO Visits VALUES (1, 23), (2, 9);
+
+CREATE TABLE IF NOT EXISTS Transactions (
+    transaction_id INT PRIMARY KEY,
+    visit_id       INT,
+    amount         INT
+);
+INSERT IGNORE INTO Transactions VALUES (2, 5, 310);
+
+CREATE TABLE IF NOT EXISTS Weather (
+    id          INT PRIMARY KEY,
+    recordDate  DATE,
+    temperature INT
+);
+INSERT IGNORE INTO Weather VALUES (1, '2015-01-01', 10), (2, '2015-01-02', 25);
+
+CREATE TABLE IF NOT EXISTS Activity (
+    machine_id    INT,
+    process_id    INT,
+    activity_type VARCHAR(20),
+    timestamp     DOUBLE
+);
+INSERT IGNORE INTO Activity VALUES (0, 0, 'start', 0.712), (0, 0, 'end', 1.520);
+
+CREATE TABLE IF NOT EXISTS Students (
+    student_id   INT PRIMARY KEY,
+    student_name VARCHAR(50)
+);
+INSERT IGNORE INTO Students VALUES (1, 'Alice'), (2, 'Bob');
+
+CREATE TABLE IF NOT EXISTS Subjects (
+    subject_name VARCHAR(50) PRIMARY KEY
+);
+INSERT IGNORE INTO Subjects VALUES ('Math'), ('Physics');
+
+CREATE TABLE IF NOT EXISTS Examinations (
+    student_id   INT,
+    subject_name VARCHAR(50)
+);
+INSERT IGNORE INTO Examinations VALUES (1, 'Math'), (1, 'Physics');
+
+
