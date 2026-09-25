@@ -98,7 +98,19 @@ sql-interview-prep/
 
 ---
 
-## 💻 Trải Nghiệm Giao Diện Web Viewer (`index.html`)
+## 📚 Tài liệu lý thuyết
+
+- [01. Thứ tự thực thi của SQL](docs/01_sql_execution_order.md)
+- [02. Window Functions Cheatsheet](docs/02_window_functions_cheatsheet.md)
+- [03. SQL Optimization Guide](docs/03_sql_optimization_guide.md)
+- [04. 20 mẫu câu hỏi phỏng vấn](docs/04_common_interview_patterns.md)
+- [05. MySQL ↔ PostgreSQL cheat sheet](docs/05_mysql_to_postgres.md)
+- [06. Advanced Joins](docs/06_advanced_joins.md)
+- [07. Query Anti-patterns](docs/07_query_antipatterns.md)
+- [08. NULL Handling](docs/08_null_handling.md)
+- [09. Aggregation Deep Dive](docs/09_aggregation_deep_dive.md)
+
+---
 
 Dự án cung cấp một **Web Application** chạy hoàn toàn trên Client-side, cho phép bạn học và tra cứu câu hỏi một cách trực quan.
 
