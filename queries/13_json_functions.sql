@@ -263,7 +263,7 @@ WHERE user_id = 3;
 -- Độ phức tạp: O(n) — 1 lần scan bảng, parse 2 JSON columns mỗi dòng.
 -- ============================================================
 SELECT
-    jt.user_id,
+    up.user_id,
     jt.name,
     jt.age,
     jt.city,
