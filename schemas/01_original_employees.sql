@@ -18,7 +18,9 @@ CREATE TABLE Employee (
     SALARY       INT,
     JOINING_DATE DATETIME,
     DEPARTMENT   CHAR(25),
-    MANAGER_ID   INT
+    MANAGER_ID   INT,
+    empId        INT,
+    name         VARCHAR(50)
 );
 
 INSERT INTO Employee
@@ -40,6 +42,8 @@ CREATE TABLE Bonus (
     EMPLOYEE_REF_ID INT,
     BONUS_AMOUNT    INT,
     BONUS_DATE      DATETIME,
+    empId           INT,
+    bonus           INT,
     FOREIGN KEY (EMPLOYEE_REF_ID) REFERENCES Employee(EMPLOYEE_ID) ON DELETE CASCADE
 );
 
@@ -349,7 +353,8 @@ CREATE TABLE customer (
     id            INT,
     name          CHAR(25),
     city          CHAR(25),
-    industry_type CHAR(1)
+    industry_type CHAR(1),
+    referee_id    INT
 );
 
 INSERT INTO customer (id, name, city, industry_type) VALUES

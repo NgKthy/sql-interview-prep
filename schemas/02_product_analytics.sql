@@ -11,7 +11,8 @@ USE product_analytics;
 CREATE TABLE users (
     user_id     INT PRIMARY KEY,
     username    VARCHAR(50),
-    signup_date DATE
+    signup_date DATE,
+    city        VARCHAR(50)
 );
 
 CREATE TABLE events (
