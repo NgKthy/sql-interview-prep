@@ -79,7 +79,7 @@ WITH RECURSIVE chain AS (
         emp_name,
         manager_id,
         1 AS depth_from_self,
-        emp_name AS chain_path
+        CAST(emp_name AS CHAR(500)) AS chain_path
     FROM org_chart
 
     UNION ALL
