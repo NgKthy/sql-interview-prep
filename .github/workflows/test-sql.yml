@@ -36,5 +36,5 @@ jobs:
         run: |
           for f in queries/*.sql; do
             echo "Running $f..."
-            mysql -h 127.0.0.1 -u root -proot < "$f" || exit 1
+            mysql -h 127.0.0.1 -u root -proot sql_interview_prep < "$f" || exit 1
           done

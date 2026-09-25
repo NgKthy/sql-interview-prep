@@ -3,6 +3,8 @@
 -- DataLemur SQL Interview Questions — MySQL port
 -- ============================================================
 
+USE sql_interview_prep;
+
 -- ============================================================
 -- Cities With Completed Trades (Bloomberg/Robinhood)
 -- ------------------------------------------------------------

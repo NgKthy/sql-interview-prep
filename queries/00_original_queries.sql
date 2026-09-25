@@ -1,3 +1,5 @@
+USE sql_interview_prep;
+
 -- 1> Write a SQL query to find the nth highest salary from employee table. 
 -- Example: finding 3rd highest salary from employee table
 select * from employee order by salary desc;
