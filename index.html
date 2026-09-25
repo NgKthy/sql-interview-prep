@@ -4,9 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SQL Interview Prep — Data Analyst</title>
+
+<!-- Highlight.js cho SQL -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+
+<!-- marked.js render markdown -->
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -23,11 +29,12 @@
   header a { color: #58a6ff; text-decoration: none; font-size: 13px; }
 
   .layout {
-    display: grid; grid-template-columns: 260px 1fr;
-    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 280px 1fr;
+    max-width: 1500px; margin: 0 auto;
     min-height: calc(100vh - 56px);
   }
 
+  /* Sidebar */
   aside {
     background: #fff; border-right: 1px solid #e1e4e8;
     padding: 16px 0; position: sticky; top: 56px;
@@ -38,19 +45,34 @@
     width: 100%; padding: 8px 12px;
     border: 1px solid #d0d7de; border-radius: 6px; font-size: 13px;
   }
+  aside .group-label {
+    padding: 12px 16px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #656d76;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
   aside ul { list-style: none; }
   aside li a {
     display: flex; justify-content: space-between;
-    padding: 8px 16px; color: #1f2328; text-decoration: none;
-    font-size: 14px; border-left: 3px solid transparent;
+    padding: 7px 16px; color: #1f2328; text-decoration: none;
+    font-size: 13.5px; border-left: 3px solid transparent;
+    gap: 8px;
   }
   aside li a:hover { background: #f6f8fa; }
   aside li a.active {
     background: #ddf4ff; border-left-color: #0969da; font-weight: 600;
   }
-  aside .count { color: #656d76; font-size: 12px; }
+  aside li a span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  aside .count { color: #656d76; font-size: 12px; flex-shrink: 0; }
 
-  main { padding: 24px 32px; }
+  /* Main */
+  main { padding: 24px 40px; min-width: 0; }
   .section { display: none; }
   .section.active { display: block; }
   .section h2 { font-size: 22px; margin-bottom: 4px; }
@@ -58,6 +80,7 @@
     color: #656d76; font-size: 14px; margin-bottom: 24px;
   }
 
+  /* Query card */
   .query {
     background: #fff; border: 1px solid #e1e4e8;
     border-radius: 8px; margin-bottom: 16px; overflow: hidden;
@@ -90,8 +113,119 @@
     font-family: "SF Mono", Consolas, Monaco, monospace;
   }
 
-  .empty { text-align: center; padding: 60px 20px; color: #656d76; }
-  .loading { text-align: center; padding: 60px 20px; color: #656d76; }
+  /* Docs content (markdown) */
+  .doc-content {
+    background: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 32px 40px;
+    max-width: 900px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .doc-content h1 {
+    font-size: 28px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e1e4e8;
+    margin-bottom: 16px;
+    margin-top: 0;
+  }
+  .doc-content h2 {
+    font-size: 22px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eaeef2;
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+  .doc-content h3 {
+    font-size: 17px;
+    margin-top: 24px;
+    margin-bottom: 10px;
+  }
+  .doc-content h4 {
+    font-size: 15px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  .doc-content p { margin: 10px 0; }
+  .doc-content ul, .doc-content ol {
+    margin: 10px 0 10px 24px;
+  }
+  .doc-content li { margin: 4px 0; }
+  .doc-content blockquote {
+    border-left: 4px solid #0969da;
+    background: #ddf4ff;
+    padding: 10px 16px;
+    margin: 14px 0;
+    color: #1f2328;
+  }
+  .doc-content blockquote p { margin: 4px 0; }
+  .doc-content code {
+    background: #eff1f3;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: "SF Mono", Consolas, Monaco, monospace;
+    font-size: 0.9em;
+  }
+  .doc-content pre {
+    background: #282c34;
+    color: #abb2bf;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 14px 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .doc-content pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+  .doc-content table {
+    border-collapse: collapse;
+    margin: 14px 0;
+    width: 100%;
+    font-size: 14px;
+  }
+  .doc-content th, .doc-content td {
+    border: 1px solid #d0d7de;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .doc-content th {
+    background: #f6f8fa;
+    font-weight: 600;
+  }
+  .doc-content tr:nth-child(even) td {
+    background: #fafbfc;
+  }
+  .doc-content hr {
+    border: none;
+    border-top: 1px solid #e1e4e8;
+    margin: 24px 0;
+  }
+  .doc-content a {
+    color: #0969da;
+    text-decoration: none;
+  }
+  .doc-content a:hover { text-decoration: underline; }
+  .doc-content img { max-width: 100%; }
+  .doc-content details {
+    background: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 10px 0;
+  }
+  .doc-content summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  /* States */
+  .empty, .loading { text-align: center; padding: 60px 20px; color: #656d76; }
   .error {
     background: #fff5f5; border: 1px solid #feb2b2;
     color: #c53030; padding: 16px; border-radius: 8px;
@@ -102,11 +236,14 @@
     font-size: 12px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr; }
-    aside { position: static; height: auto;
-            border-right: none; border-bottom: 1px solid #e1e4e8; }
+    aside {
+      position: static; height: auto;
+      border-right: none; border-bottom: 1px solid #e1e4e8;
+    }
     main { padding: 16px; }
+    .doc-content { padding: 20px; }
   }
 </style>
 </head>
@@ -115,7 +252,7 @@
 <header>
   <h1>🗃️ SQL Interview Prep</h1>
   <div class="stats">
-    <span id="totalQueries">…</span> queries ·
+    <span id="stats">Đang tải…</span> ·
     <a href="https://github.com/NgKthy/sql-interview-prep" target="_blank">GitHub ↗</a>
   </div>
 </header>
@@ -123,9 +260,9 @@
 <div class="layout">
   <aside>
     <div class="search">
-      <input type="text" id="search" placeholder="Tìm query…">
+      <input type="text" id="search" placeholder="Tìm query / docs…">
     </div>
-    <ul id="menu"></ul>
+    <div id="menu"></div>
   </aside>
   <main id="content">
     <div class="loading">Đang tải dữ liệu…</div>
@@ -137,10 +274,13 @@
 // CONFIG
 // ============================================================
 const MANIFEST_URL = 'manifest.json';
-
-// Pattern nhận dạng header của mỗi query trong file .sql
-// Khớp:  "-- Q1. ..."  "-- W1. ..."  "-- OC1. ..."  "-- 1> ..."
 const QUERY_HEADER_RE = /^--\s+([A-Z]{1,4}\d+[\.\):>]\s+.+)$/;
+
+// Cấu hình marked
+marked.setOptions({
+  breaks: true,
+  gfm: true
+});
 
 // ============================================================
 // MAIN
@@ -148,7 +288,7 @@ const QUERY_HEADER_RE = /^--\s+([A-Z]{1,4}\d+[\.\):>]\s+.+)$/;
 (async function main() {
   const contentEl = document.getElementById('content');
   const menuEl    = document.getElementById('menu');
-  const totalEl   = document.getElementById('totalQueries');
+  const statsEl   = document.getElementById('stats');
 
   // 1. Load manifest
   let manifest;
@@ -161,7 +301,7 @@ const QUERY_HEADER_RE = /^--\s+([A-Z]{1,4}\d+[\.\):>]\s+.+)$/;
     return;
   }
 
-  // 2. Load song song tất cả file .sql trong manifest
+  // 2. Load tất cả file trong manifest
   const allFiles = [...new Set(manifest.sections.flatMap(s => s.files))];
   const fileContents = {};
 
@@ -176,35 +316,61 @@ const QUERY_HEADER_RE = /^--\s+([A-Z]{1,4}\d+[\.\):>]\s+.+)$/;
     }
   }));
 
-  // 3. Build dữ liệu từng section
+  // 3. Build sections theo type
   const sections = manifest.sections.map(sec => {
+    const type = sec.type || 'queries';
+
+    if (type === 'docs') {
+      // Mỗi docs = 1 file markdown
+      const docs = sec.files
+        .map(path => ({ path, content: fileContents[path] }))
+        .filter(d => d.content);
+      return { ...sec, type, docs };
+    }
+
+    // Mặc định: queries
     const queries = [];
     sec.files.forEach(path => {
       const raw = fileContents[path];
       if (!raw) return;
-      const parsed = parseSqlFile(raw, path);
-      queries.push(...parsed);
+      queries.push(...parseSqlFile(raw, path));
     });
-    return { ...sec, queries };
+    return { ...sec, type: 'queries', queries };
   });
 
-  // 4. Render
+  // 4. Render sidebar (2 nhóm: Queries, Docs)
   renderMenu(menuEl, sections);
+
+  // 5. Render content
   renderContent(contentEl, sections);
 
-  const total = sections.reduce((sum, s) => sum + s.queries.length, 0);
-  totalEl.textContent = total;
+  // 6. Stats
+  const totalQueries = sections
+    .filter(s => s.type === 'queries')
+    .reduce((sum, s) => sum + s.queries.length, 0);
+  const totalDocs = sections.filter(s => s.type === 'docs').length;
+  statsEl.innerHTML = `<strong>${totalQueries}</strong> queries · <strong>${totalDocs}</strong> docs`;
 
-  // 5. Kích hoạt section đầu tiên
+  // 7. Activate section đầu
   if (sections.length > 0) activate(sections[0].id);
 
-  // 6. Gắn sự kiện
+  // 8. Bind events
   bindNav();
   bindCopy();
   bindSearch();
 
-  // 7. Highlight code
-  document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+  // 9. Highlight SQL trong query cards
+  document.querySelectorAll('pre code.language-sql').forEach(el => {
+    hljs.highlightElement(el);
+  });
+
+  // 10. Highlight SQL trong docs (sau khi render markdown)
+  document.querySelectorAll('.doc-content pre code').forEach(el => {
+    if (!el.classList.contains('hljs')) {
+      el.classList.add('language-sql');
+      try { hljs.highlightElement(el); } catch (e) {}
+    }
+  });
 })();
 
 // ============================================================
@@ -226,7 +392,6 @@ function parseSqlFile(content, filePath) {
   }
   if (current) queries.push(current);
 
-  // Nếu file không có marker nào → hiển thị cả file như 1 query
   if (queries.length === 0) {
     return [{
       title: filePath.split('/').pop(),
@@ -246,14 +411,37 @@ function parseSqlFile(content, filePath) {
 // RENDER MENU
 // ============================================================
 function renderMenu(menuEl, sections) {
-  menuEl.innerHTML = sections.map(sec => `
-    <li>
-      <a href="#${sec.id}" data-id="${sec.id}">
-        <span>${escapeHtml(sec.name)}</span>
-        <span class="count">${sec.queries.length}</span>
-      </a>
-    </li>
-  `).join('');
+  const querySections = sections.filter(s => s.type === 'queries');
+  const docSections   = sections.filter(s => s.type === 'docs');
+
+  let html = '';
+
+  if (querySections.length > 0) {
+    html += '<div class="group-label">Queries</div><ul>';
+    html += querySections.map(sec => `
+      <li>
+        <a href="#${sec.id}" data-id="${sec.id}">
+          <span>${escapeHtml(sec.name)}</span>
+          <span class="count">${sec.queries.length}</span>
+        </a>
+      </li>
+    `).join('');
+    html += '</ul>';
+  }
+
+  if (docSections.length > 0) {
+    html += '<div class="group-label">Tài liệu</div><ul>';
+    html += docSections.map(sec => `
+      <li>
+        <a href="#${sec.id}" data-id="${sec.id}">
+          <span>${escapeHtml(sec.name)}</span>
+        </a>
+      </li>
+    `).join('');
+    html += '</ul>';
+  }
+
+  menuEl.innerHTML = html;
 }
 
 // ============================================================
@@ -261,32 +449,62 @@ function renderMenu(menuEl, sections) {
 // ============================================================
 function renderContent(contentEl, sections) {
   contentEl.innerHTML = sections.map(sec => {
-    const queriesHtml = sec.queries.map((q, i) => {
-      const badge = extractBadge(q.title);
-      const cleanTitle = stripBadge(q.title);
-      const codeId = `code-${sec.id}-${i}`;
-      const searchKey = (q.title + ' ' + q.sql).toLowerCase();
-
-      return `
-        <article class="query" data-search="${escapeAttr(searchKey)}">
-          <div class="query-header">
-            <div class="query-title">
-              ${escapeHtml(cleanTitle)}
-              ${badge ? `<span class="badge">${escapeHtml(badge)}</span>` : ''}
-            </div>
-            <button class="btn-copy" data-target="${codeId}">Copy</button>
-          </div>
-          <pre><code class="language-sql" id="${codeId}">${escapeHtml(q.sql)}</code></pre>
-        </article>
-      `;
-    }).join('');
+    const inner = sec.type === 'docs'
+      ? renderDocsSection(sec)
+      : renderQueriesSection(sec);
 
     return `
       <section class="section" id="${sec.id}">
         <h2>${escapeHtml(sec.name)}</h2>
         <p class="desc">${escapeHtml(sec.desc)}</p>
-        ${queriesHtml || '<div class="empty">Chưa có query nào.</div>'}
+        ${inner}
       </section>
+    `;
+  }).join('');
+}
+
+function renderQueriesSection(sec) {
+  if (sec.queries.length === 0) {
+    return '<div class="empty">Chưa có query nào.</div>';
+  }
+  return sec.queries.map((q, i) => {
+    const badge = extractBadge(q.title);
+    const codeId = `code-${sec.id}-${i}`;
+    const searchKey = (q.title + ' ' + q.sql).toLowerCase();
+
+    return `
+      <article class="query" data-search="${escapeAttr(searchKey)}">
+        <div class="query-header">
+          <div class="query-title">
+            ${escapeHtml(q.title)}
+            ${badge ? `<span class="badge">${escapeHtml(badge)}</span>` : ''}
+          </div>
+          <button class="btn-copy" data-target="${codeId}">Copy</button>
+        </div>
+        <pre><code class="language-sql" id="${codeId}">${escapeHtml(q.sql)}</code></pre>
+      </article>
+    `;
+  }).join('');
+}
+
+function renderDocsSection(sec) {
+  if (sec.docs.length === 0) {
+    return '<div class="empty">Chưa có tài liệu.</div>';
+  }
+  return sec.docs.map(doc => {
+    // Render markdown → HTML
+    let html = '';
+    try {
+      html = marked.parse(doc.content);
+    } catch (e) {
+      html = `<pre>${escapeHtml(doc.content)}</pre>`;
+    }
+    const searchKey = doc.content.toLowerCase().slice(0, 5000);
+
+    return `
+      <article class="doc-content" data-search="${escapeAttr(searchKey)}">
+        ${html}
+      </article>
     `;
   }).join('');
 }
@@ -295,8 +513,7 @@ function renderContent(contentEl, sections) {
 // NAVIGATION
 // ============================================================
 function bindNav() {
-  const links = document.querySelectorAll('aside a');
-  links.forEach(a => {
+  document.querySelectorAll('aside a').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
       activate(a.dataset.id);
@@ -304,7 +521,6 @@ function bindNav() {
     });
   });
 
-  // Kích hoạt theo hash nếu có
   if (location.hash) {
     const id = location.hash.slice(1);
     if (document.getElementById(id)) activate(id);
@@ -346,11 +562,33 @@ function bindCopy() {
 // SEARCH
 // ============================================================
 function bindSearch() {
-  document.getElementById('search').addEventListener('input', e => {
+  const searchEl = document.getElementById('search');
+  searchEl.addEventListener('input', e => {
     const q = e.target.value.trim().toLowerCase();
+
+    // Filter queries
     document.querySelectorAll('.query').forEach(card => {
       const match = !q || card.dataset.search.includes(q);
       card.style.display = match ? '' : 'none';
+    });
+
+    // Filter docs — ẩn cả section nếu docs không khớp
+    document.querySelectorAll('.section').forEach(section => {
+      const docs = section.querySelectorAll('.doc-content');
+      if (docs.length === 0) return;
+
+      let anyVisible = false;
+      docs.forEach(doc => {
+        const match = !q || doc.dataset.search.includes(q);
+        doc.style.display = match ? '' : 'none';
+        if (match) anyVisible = true;
+      });
+
+      // Ẩn/hiện menu item tương ứng
+      const link = document.querySelector(`aside a[data-id="${section.id}"]`);
+      if (link) {
+        link.parentElement.style.display = anyVisible ? '' : 'none';
+      }
     });
   });
 }
@@ -366,22 +604,16 @@ function escapeHtml(s) {
 }
 
 function escapeAttr(s) {
-  return String(s).replace(/"/g, '&quot;');
+  return String(s).replace(/"/g, '&quot;').slice(0, 3000);
 }
 
-// Trích badge từ title: "Q1. Tìm..." → "Q1"
 function extractBadge(title) {
   const m = title.match(/^([A-Z]{1,4}\d+)[\.\):>]/);
   return m ? m[1] : '';
 }
 
-function stripBadge(title) {
-  return title;
-}
-
 function showFetchError(err) {
-  const contentEl = document.getElementById('content');
-  contentEl.innerHTML = `
+  document.getElementById('content').innerHTML = `
     <div class="error">
       <strong>⚠️ Không tải được <code>manifest.json</code>.</strong>
       <p style="margin-top:8px">Lỗi: ${escapeHtml(err.message)}</p>

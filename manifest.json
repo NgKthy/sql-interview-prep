@@ -4,120 +4,140 @@
       "id": "original",
       "name": "00. Original Queries",
       "desc": "51 câu hỏi gốc từ repo Aafreen29 (bản tham chiếu)",
+      "type": "queries",
       "files": ["queries/00_original_queries.sql"]
     },
     {
       "id": "basic",
       "name": "01. Basic",
       "desc": "Aggregate, sắp xếp, phân nhóm, top N",
+      "type": "queries",
       "files": ["queries/01_basic.sql"]
     },
     {
       "id": "string_date",
       "name": "02. String & Date",
       "desc": "Xử lý chuỗi và ngày tháng",
+      "type": "queries",
       "files": ["queries/02_string_date.sql"]
     },
     {
       "id": "self_join",
       "name": "03. Self Join",
       "desc": "Join bảng với chính nó",
+      "type": "queries",
       "files": ["queries/03_self_join.sql"]
     },
     {
       "id": "subquery",
       "name": "04. Subquery",
       "desc": "IN / EXISTS / NOT IN",
+      "type": "queries",
       "files": ["queries/04_subquery.sql"]
     },
     {
       "id": "joins",
       "name": "05. Joins",
       "desc": "JOIN nhiều bảng",
+      "type": "queries",
       "files": ["queries/05_joins.sql"]
     },
     {
       "id": "product",
       "name": "06. Product Metrics",
       "desc": "CTR, retention, fraud, acceptance",
+      "type": "queries",
       "files": ["queries/06_product_metrics.sql"]
     },
     {
       "id": "histogram",
       "name": "07. Histogram",
       "desc": "Histogram / bucketing",
+      "type": "queries",
       "files": ["queries/07_histogram.sql"]
     },
     {
       "id": "window",
       "name": "08. Window Functions",
       "desc": "RANK, LAG/LEAD, moving average",
+      "type": "queries",
       "files": ["queries/08_window_functions.sql"]
     },
     {
       "id": "cte",
       "name": "09. CTE & Recursive",
       "desc": "Common Table Expression, recursive",
+      "type": "queries",
       "files": ["queries/09_cte_recursive.sql"]
     },
     {
       "id": "set_ops",
       "name": "10. Set Operations",
       "desc": "UNION / INTERSECT / EXCEPT",
+      "type": "queries",
       "files": ["queries/10_set_operations.sql"]
     },
     {
       "id": "leetcode",
       "name": "11. LeetCode Top 50",
       "desc": "Lời giải tham khảo",
+      "type": "queries",
       "files": ["queries/11_leetcode_top50.sql"]
     },
     {
       "id": "datalemur",
       "name": "12. DataLemur",
       "desc": "Câu hỏi từ DataLemur",
+      "type": "queries",
       "files": ["queries/12_datalemur.sql"]
     },
     {
       "id": "json",
       "name": "13. JSON Functions",
       "desc": "JSON_EXTRACT, JSON_TABLE",
+      "type": "queries",
       "files": ["queries/13_json_functions.sql"]
     },
     {
       "id": "perf",
       "name": "14. Performance Tuning",
       "desc": "EXPLAIN, INDEX, anti-patterns",
+      "type": "queries",
       "files": ["queries/14_performance_tuning.sql"]
     },
     {
       "id": "procedures",
       "name": "15. Stored Procedures",
       "desc": "Procedure, function, trigger, view",
+      "type": "queries",
       "files": ["queries/15_stored_procedures.sql"]
     },
     {
       "id": "org_chart",
       "name": "16. Recursive Org Chart",
       "desc": "Org chart, bill of materials",
+      "type": "queries",
       "files": ["queries/16_recursive_org_chart.sql"]
     },
     {
       "id": "analytics",
       "name": "17. Advanced Analytics",
       "desc": "Cohort, funnel, RFM",
+      "type": "queries",
       "files": ["queries/17_advanced_analytics.sql"]
     },
     {
       "id": "pandas",
       "name": "18. Pandas vs SQL",
       "desc": "So sánh SQL và pandas",
+      "type": "queries",
       "files": ["queries/18_pandas_vs_sql.sql"]
     },
     {
       "id": "postgres",
       "name": "19. PostgreSQL Port",
       "desc": "Bản port sang PostgreSQL",
+      "type": "queries",
       "files": [
         "postgresql/01_basic.sql",
         "postgresql/02_string_date.sql",
@@ -138,6 +158,69 @@
         "postgresql/17_advanced_analytics.sql",
         "postgresql/18_pandas_vs_sql.sql"
       ]
+    },
+    {
+      "id": "doc_execution_order",
+      "name": "📘 01. Thứ tự thực thi SQL",
+      "desc": "FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY",
+      "type": "docs",
+      "files": ["docs/01_sql_execution_order.md"]
+    },
+    {
+      "id": "doc_window_functions",
+      "name": "📘 02. Window Functions",
+      "desc": "Cheatsheet RANK, LAG/LEAD, frame clauses",
+      "type": "docs",
+      "files": ["docs/02_window_functions_cheatsheet.md"]
+    },
+    {
+      "id": "doc_optimization",
+      "name": "📘 03. SQL Optimization",
+      "desc": "EXPLAIN, INDEX, anti-patterns hiệu năng",
+      "type": "docs",
+      "files": ["docs/03_sql_optimization_guide.md"]
+    },
+    {
+      "id": "doc_patterns",
+      "name": "📘 04. 20 mẫu phỏng vấn",
+      "desc": "20 pattern câu hỏi phổ biến nhất",
+      "type": "docs",
+      "files": ["docs/04_common_interview_patterns.md"]
+    },
+    {
+      "id": "doc_mysql_pg",
+      "name": "📘 05. MySQL ↔ PostgreSQL",
+      "desc": "Cheat sheet chuyển đổi 2 hệ CSDL",
+      "type": "docs",
+      "files": ["docs/05_mysql_to_postgres.md"]
+    },
+    {
+      "id": "doc_joins",
+      "name": "📘 06. Advanced Joins",
+      "desc": "6 loại JOIN, pitfalls, fan-out",
+      "type": "docs",
+      "files": ["docs/06_advanced_joins.md"]
+    },
+    {
+      "id": "doc_antipatterns",
+      "name": "📘 07. Query Anti-patterns",
+      "desc": "20 lỗi query thường gặp",
+      "type": "docs",
+      "files": ["docs/07_query_antipatterns.md"]
+    },
+    {
+      "id": "doc_null",
+      "name": "📘 08. NULL Handling",
+      "desc": "Xử lý NULL trong SQL",
+      "type": "docs",
+      "files": ["docs/08_null_handling.md"]
+    },
+    {
+      "id": "doc_aggregation",
+      "name": "📘 09. Aggregation Deep Dive",
+      "desc": "GROUP BY, ROLLUP, CUBE, FILTER",
+      "type": "docs",
+      "files": ["docs/09_aggregation_deep_dive.md"]
     }
   ]
 }
